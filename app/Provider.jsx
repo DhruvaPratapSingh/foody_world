@@ -3,7 +3,7 @@ import Header from './_components/Header'
 
 const Provider = ({children}) => {
   return (
-    <div>
+    <div className='px-10 md:px-20 relative'>
     <Header/>
       {children}
     </div>
