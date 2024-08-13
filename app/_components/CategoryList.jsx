@@ -17,7 +17,7 @@ const CategoryList = () => {
   const [selectedCategory,setSelectedCategory]=useState([]);
 
    useEffect(()=>{
-console.log(params.get('category'));
+  setSelectedCategory(params.get('category'));
    },[params])
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const ScrollRightHandler=()=>{
     <div className='mt-32 relative'>
       <div className='flex gap-4 overflow-auto scrollbar-hide 'ref={listRef}>
         {categoryList && categoryList.map((category, index) => (
-          <Link href={"?category="+category.slug} key={index} className="flex flex-col items-center gap-2 p-3 border rounded-xl min-w-28 hover:border-primary hover:bg-orange-50 cursor-pointer group">
+          <Link href={"?category="+category.slug} key={index} className={`flex flex-col items-center gap-2 p-3 border rounded-xl min-w-28 hover:border-primary hover:bg-orange-50 cursor-pointer group ${selectedCategory==category.slug && 'text-primary boder-primary bg-orange-50 hover:border-primary hover:bg-orange-50 cursor-pointer'}`}>
             <div className="w-20 h-20 bg-white rounded-full border overflow-hidden flex items-center justify-center">
               <Image
                 className="object-cover
