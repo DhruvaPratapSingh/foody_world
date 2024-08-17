@@ -39,11 +39,11 @@ const ScrollRightHandler=()=>{
     }
 }
   return (
-    <div className='mt-32 relative'>
+    <div className='mt-10 relative'>
       <div className='flex gap-4 overflow-auto scrollbar-hide 'ref={listRef}>
         {categoryList && categoryList.map((category, index) => (
           <Link href={"?category="+category.slug} key={index} className={`flex flex-col items-center gap-2 p-3 border rounded-xl min-w-28 hover:border-primary hover:bg-orange-50 cursor-pointer group ${selectedCategory==category.slug && 'text-primary boder-primary bg-orange-50 hover:border-primary hover:bg-orange-50 cursor-pointer'}`}>
-            <div className="w-20 h-20 bg-white rounded-full border overflow-hidden flex items-center justify-center">
+            <div className="w-20 h-20 overflow-hidden flex items-center justify-center">
               <Image
                 className="object-cover
                  group-hover:scale-125 transition-all duration-200"
