@@ -14,7 +14,7 @@ const Header = () => {
       <Image src="/logo.jpg" alt="logo" width={100} height={100} />
       <div className='hidden lg:flex p-2 rounded-lg bg-gray-200 w-96'>
         <input type="text" className='bg-transparent w-full outline-none' placeholder="Search..." />
-        <Search />
+        <Search className='text-primary'/>
       </div>
       
       {isSignedIn ? (
