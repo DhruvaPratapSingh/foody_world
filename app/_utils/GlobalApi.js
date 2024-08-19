@@ -47,7 +47,47 @@ const GetBusiness = async (category) => {
   return result;
 };
 
+const GetBusinessDetail=async(businessSlug)=>{
+  const query=gql`
+  query RestaurantDetails {
+    resaurant(where: {slug: "`+businessSlug+`"}) {
+      aboutUs
+      address
+      categories {
+        name
+      }
+      id
+      name
+      restroType
+      slug
+      workingHours
+      banner {
+        url
+      }
+      menu {
+        ... on Menu {
+          id
+          category
+          menuitem {
+            ... on MenuItem {
+              id
+              name
+              price
+              description
+              productImage {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  }`
+  const result = await request(MASTER_URL, query);
+  return result;
+}
 export default {
   GetCategory,
-  GetBusiness
+  GetBusiness,
+  GetBusinessDetail
 };

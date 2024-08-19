@@ -1,10 +1,14 @@
 "use client";
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const BusinessItem = ({ business }) => {
   return (
-    <div className='p-3 
+    <Link
+    href={'/restaurant/'+business?.slug}>
+    <div
+    className='p-3 
     border-2 border-transparent
     hover:border-2 hover:border-primary rounded-xl cursor-pointer hover:bg-orange-50'>
       <Image
@@ -31,6 +35,7 @@ const BusinessItem = ({ business }) => {
         </div>
       </div>
     </div>
+    </Link>
   );
 };
 
