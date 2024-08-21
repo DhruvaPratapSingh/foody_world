@@ -1,12 +1,20 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { SquarePlus } from 'lucide-react'
+import { useUser } from '@clerk/nextjs'
+import GlobalApi from '@/app/_utils/GlobalApi'
+import { toast } from 'sonner'
+import { CartUpdateContext } from '@/app/_context/CartUpdateContext'
 
 const MenuTab = ({ restaurant }) => {
 
     const [menuItemList,setMenuItemList]=useState([]);
+const {updateCart,setUpdateCart}=useContext(CartUpdateContext);
+
+    const {user}=useUser();
+
     useEffect(()=>{
     restaurant?.menu&&FilterMenu(restaurant?.menu[0]?.category)
     },[restaurant]);
@@ -14,6 +22,22 @@ const MenuTab = ({ restaurant }) => {
 const result=restaurant?.menu?.filter((item)=>
 item.category==category)
 setMenuItemList(result[0]);
+
+}
+const AddToCarthandler=(item)=>{
+  toast('Adding to cart 🚀')
+const data={
+  email: user?.emailAddresses,
+  name:item?.name,
+  description:item?.description,
+  productImage:item?.productImage?.url,
+  price:item?.price
+}
+GlobalApi.AddToCart(data).then(res=>{
+  // console.log(res);
+  setUpdateCart(!updateCart);
+  toast('✅Added to Cart🎉')
+})
 }
 
   return (
@@ -42,7 +66,7 @@ setMenuItemList(result[0]);
         <h2 className='font-bold'>{item.name}</h2>
         <h2>{item.price}₹</h2>
         <h2 className='text-sm text-gray-600 line-clamp-2'>{item.description}</h2>
-        <SquarePlus className='cursor-grab'/>
+        <SquarePlus className='cursor-grab' onClick={()=>AddToCarthandler(item)}/>
       </div>
             </div>
         ))}

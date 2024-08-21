@@ -13,7 +13,7 @@ const RestaurantDetails = () => {
   },[])
   const GetRestaurantDetail=(restroSlug)=>{
     GlobalApi.GetBusinessDetail(restroSlug).then(res=>{
-      console.log(res);
+      // console.log(res);
       setRestaurant(res.resaurant);
     })
   }

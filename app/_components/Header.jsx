@@ -1,14 +1,29 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Search } from 'lucide-react';
+import { Search, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SignInButton, SignedOut, UserButton, SignedIn, SignUpButton, useUser } from '@clerk/nextjs';
+import { useContext } from 'react';
+import { CartUpdateContext } from '../_context/CartUpdateContext';
+import GlobalApi from '../_utils/GlobalApi';
 
 const Header = () => {
   const { user, isSignedIn } = useUser();
+  const {updateCart,setUpdateCart}=useContext(CartUpdateContext);
+const [cart,setCart]=useState([]);
+  useEffect(()=>{
+    // console.log("execute me header")
+  GetUserCart();
+  },[updateCart]);
 
+  const GetUserCart=()=>{
+    GlobalApi.GetUserCart(user?.emailAddresses).then(res=>{
+      // console.log(res);
+      setCart(res?.userCarts);
+    })
+  }
   return (
     <div className='flex justify-between items-center p-4 md:px-20 shadow-sm w-full top-0 z-20 bg-white'>
       <Image src="/logo.jpg" alt="logo" width={100} height={100} />
@@ -18,7 +33,13 @@ const Header = () => {
       </div>
       
       {isSignedIn ? (
+        <div className='flex gap-3 items-center'>
+        <div className='flex gap-2 cursor-pointer group items-center'>
+        <ShoppingCart/>
+        <label className='px-2 bg-slate-400 rounded-xl text-center'>{cart.length}</label>
+        </div>
         <UserButton />
+        </div>
       ) : (
         <div className='flex gap-5'>
           <SignInButton mode='modal'>
