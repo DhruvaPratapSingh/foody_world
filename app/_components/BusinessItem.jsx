@@ -4,6 +4,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const BusinessItem = ({ business }) => {
+
+  const calculaterating=()=>{
+    let total=0;
+    let count=0;
+    business?.review?.forEach(item => {
+      total=total+item?.star;
+      count++;
+    });
+    const res=total/count;
+    return res?res.toFixed(1):3.5;
+  }
   return (
     <Link
     href={'/restaurant/'+business?.slug}>
@@ -28,7 +39,7 @@ const BusinessItem = ({ business }) => {
             width={14}
             height={14}
              />
-            <label className='text-gray-500 text-sm'>4.5</label>
+            <label className='text-gray-500 text-sm'>{calculaterating()}</label>
             <h2 className='text-gray-700 text-sm '>{business?.restroType}</h2>
           </div>
           <h2 className='text-sm text-primary'>{business.categories[0]?.name}</h2>

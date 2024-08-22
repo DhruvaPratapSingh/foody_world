@@ -3,6 +3,7 @@ import "./globals.css";
 import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 
 import Provider from "./Provider";
+import '@smastrom/react-rating/style.css'
 
 const inter = Inter({ subsets: ["latin"] });
 

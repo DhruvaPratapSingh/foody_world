@@ -8,7 +8,7 @@ const Provider = ({children}) => {
   const [updateCart,setUpdateCart]=useState(false);
   return (
     <CartUpdateContext.Provider value={{updateCart,setUpdateCart}}>
-    <div className='px-10 md:px-20 relative'>
+    <div className='px-10 md:px-20 relative mb-10'>
     <Header/>
     <Toaster/>
       {children}

@@ -57,7 +57,7 @@ GlobalApi.AddToCart(data).then(res=>{
         {menuItemList?.menuitem?.map((item,index)=>(
             <div className='p-2 flex gap-5 items-start border rounded-xl mt-5 hover:bg-orange-50 hover:border-primary'>
       <Image 
-        src={item.productImage.url}
+        src={item?.productImage?.url}
         alt={item.name}
         width={120}
         height={120}

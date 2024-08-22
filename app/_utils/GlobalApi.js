@@ -1,7 +1,9 @@
+
 import { gql, request } from "graphql-request";
 
 const MASTER_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
+console.log(MASTER_URL);
 //  Used to make get Category API request 
 //  @returns
 const GetCategory = async () => {
@@ -40,6 +42,9 @@ const GetBusiness = async (category) => {
       restroType
       slug
       workingHours
+      review {
+        star
+      }
     }
   }
   `;
@@ -80,6 +85,9 @@ const GetBusinessDetail=async(businessSlug)=>{
             }
           }
         }
+      }
+      review {
+        star
       }
     }
   }`
@@ -149,6 +157,45 @@ const DeleteItemCart=async(id)=>{
   const result = await request(MASTER_URL, query);
   return result;
 }
+const AddNewReview=async(data)=>{
+  const query=gql`
+  mutation AddNewReview {
+    createReview(
+      data: {email: "`+data?.email+`",
+         profileImage: "`+data?.profileImage+`",
+          reviewText: "`+data?.reviewText+`",
+           star: `+data?.star+`,
+            userName: "`+data?.userName+`",
+            restaurant: {connect: {slug: "`+data?.RestroSlug+`"}}}
+    ) {
+      id
+    }
+    publishManyReviews(to: PUBLISHED) {
+      count
+    }
+  }
+  `
+  const result = await request(MASTER_URL, query);
+  return result;
+}
+
+const getRestaurantReviews=async(slug)=>{
+  const query=gql`
+  query RestaurantReviews {
+    reviews(where: {restaurant: {slug: "`+slug+`"}},orderBy: updatedAt_DESC) {
+      userName
+      id
+      profileImage
+      publishedAt
+      reviewText
+      star
+    }
+  }
+  `
+  const result = await request(MASTER_URL, query);
+  return result;
+}
+
 export default {
   GetCategory,
   GetBusiness,
@@ -156,5 +203,7 @@ export default {
   AddToCart,
   GetUserCart,
   DisconnectRestaurantFromCartItem,
-  DeleteItemCart
+  DeleteItemCart,
+  AddNewReview,
+  getRestaurantReviews
 };

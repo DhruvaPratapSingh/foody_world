@@ -2,6 +2,7 @@
 import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import MenuTab from './MenuTab'
+import ReviewSection from './ReviewSection'
 
 const RestroTabs = ({restaurant}) => {
   return (
@@ -15,7 +16,7 @@ const RestroTabs = ({restaurant}) => {
     <MenuTab  restaurant={restaurant}/>
   </TabsContent>
   <TabsContent value="about">about</TabsContent>
-  <TabsContent value="reviews">reviews</TabsContent>
+  <TabsContent value="reviews"> <ReviewSection restaurant={restaurant}/> </TabsContent>
 </Tabs>
   )
 }

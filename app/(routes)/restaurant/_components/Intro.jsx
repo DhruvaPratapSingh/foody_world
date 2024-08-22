@@ -1,9 +1,25 @@
 "use client"
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { MapPin } from 'lucide-react'
 
 const Intro = ({restaurant}) => {
+  const [totalreview,settotalreview]=useState(1);
+const [avgrating,setavgrating]=useState();
+  useEffect(()=>{
+ restaurant&&calculaterating();
+  },[restaurant])
+  const calculaterating=()=>{
+    let total=0;
+    let count=0;
+    restaurant?.review?.forEach(item => {
+      total=total+item?.star;
+      count++;
+    });
+    settotalreview(count);
+    const res=total/count;
+    setavgrating(res?res.toFixed(1):3.5);
+  }
   return (
     <div>
       {restaurant ?<div className='mt-5'>
@@ -25,7 +41,7 @@ const Intro = ({restaurant}) => {
             width={20}
             height={20}
         />
-       <label>4.3(103)</label>
+       <label>{avgrating}/({totalreview})</label>
       </div>
       <h2 className='mt-1 flex gap-2 items-center'>
       <MapPin/>
