@@ -91,7 +91,7 @@ const AddToCart=async(data)=>{
   const query=gql`
   mutation AddToCart {
     createUserCart(
-      data: {email: "`+data?.email+`", price: `+data?.price+`, productDescription: "`+data?.discription+`", productImage: "`+data?.productImage+`", productName: "`+ data?.name+`"}
+      data: {email: "`+data?.email+`", price: `+data?.price+`, productDescription: "`+data?.discription+`", productImage: "`+data?.productImage+`", productName: "`+ data?.name+`",restaurant: {connect: {slug: "`+data?.restaurantSlug+`"}}}
     ) {
       id
     }
@@ -112,6 +112,37 @@ const GetUserCart=async(userEmail)=>{
       productDescription
       productImage
       productName
+      restaurant {
+        name
+        banner {
+          url
+        }
+      }
+    }
+  }
+  `
+  const result = await request(MASTER_URL, query);
+  return result;
+}
+const DisconnectRestaurantFromCartItem=async(id)=>{
+  const query=gql`
+  mutation DisconnectRestaurantFromCartItem {
+    updateUserCart(data: {restaurant: {disconnect: true}}, where: {id: "`+id+`"}) {
+      id
+    }
+    publishManyUserCarts(to: PUBLISHED) {
+      count
+    }
+  }`
+  const result = await request(MASTER_URL, query);
+  return result;
+}
+
+const DeleteItemCart=async(id)=>{
+  const query=gql`
+  mutation DeleteCartItem {
+    deleteUserCart(where: {id: "`+id+`"}) {
+      id
     }
   }
   `
@@ -123,5 +154,7 @@ export default {
   GetBusiness,
   GetBusinessDetail,
   AddToCart,
-  GetUserCart
+  GetUserCart,
+  DisconnectRestaurantFromCartItem,
+  DeleteItemCart
 };

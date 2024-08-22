@@ -9,6 +9,14 @@ import { useContext } from 'react';
 import { CartUpdateContext } from '../_context/CartUpdateContext';
 import GlobalApi from '../_utils/GlobalApi';
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import Cart from './Cart';
+
+
 const Header = () => {
   const { user, isSignedIn } = useUser();
   const {updateCart,setUpdateCart}=useContext(CartUpdateContext);
@@ -22,6 +30,7 @@ const [cart,setCart]=useState([]);
     GlobalApi.GetUserCart(user?.emailAddresses).then(res=>{
       // console.log(res);
       setCart(res?.userCarts);
+      setUpdateCart(!updateCart)
     })
   }
   return (
@@ -34,10 +43,15 @@ const [cart,setCart]=useState([]);
       
       {isSignedIn ? (
         <div className='flex gap-3 items-center'>
-        <div className='flex gap-2 cursor-pointer group items-center'>
+       
+        <Popover>
+  <PopoverTrigger > <div className='flex gap-2 cursor-pointer group items-center'>
         <ShoppingCart/>
         <label className='px-2 bg-slate-400 rounded-xl text-center'>{cart.length}</label>
-        </div>
+        </div></PopoverTrigger>
+  <PopoverContent className="w-full"><Cart cart={cart}/></PopoverContent>
+</Popover>
+
         <UserButton />
         </div>
       ) : (

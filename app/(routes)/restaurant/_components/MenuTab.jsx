@@ -31,7 +31,8 @@ const data={
   name:item?.name,
   description:item?.description,
   productImage:item?.productImage?.url,
-  price:item?.price
+  price:item?.price,
+  restaurantSlug:restaurant?.slug
 }
 GlobalApi.AddToCart(data).then(res=>{
   // console.log(res);
