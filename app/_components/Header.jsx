@@ -48,8 +48,10 @@ const [cart,setCart]=useState([]);
   <PopoverTrigger > <div className='flex gap-2 cursor-pointer group items-center'>
         <ShoppingCart/>
         <label className='px-2 bg-slate-400 rounded-xl text-center'>{cart.length}</label>
-        </div></PopoverTrigger>
-  <PopoverContent className="w-full"><Cart cart={cart}/></PopoverContent>
+        </div>
+      </PopoverTrigger>
+  <PopoverContent className="w-full"><Cart cart={cart}/>
+  </PopoverContent>
 </Popover>
 
         <UserButton />

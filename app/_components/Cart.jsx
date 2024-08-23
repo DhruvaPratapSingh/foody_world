@@ -8,6 +8,7 @@ import GlobalApi from '../_utils/GlobalApi'
 import { toast } from 'sonner'
 import { useContext } from 'react'
 import { CartUpdateContext } from '../_context/CartUpdateContext'
+import Link from 'next/link'
 const Cart = ({cart}) => {
 
     const {updateCart,setUpdateCart}=useContext(CartUpdateContext);
@@ -53,7 +54,7 @@ GlobalApi.DisconnectRestaurantFromCartItem(id).then(res=>{
             </div>
 
         ))}
-        <Button>Checkout {calculateamount()}rs</Button>
+       <Link href={"/checkout?restaurant="+cart[0]?.restaurant?.name}><Button className="w-full">Checkout {calculateamount()}rs</Button></Link>
       </div>
     </div>
   )
