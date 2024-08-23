@@ -2,13 +2,15 @@
 import { useSearchParams } from 'next/navigation';
 import { Input } from "@/components/ui/input";
 import GlobalApi from '@/app/_utils/GlobalApi';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { act, useContext, useEffect, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { CartUpdateContext } from '@/app/_context/CartUpdateContext';
 import { ArrowBigRight, Car, Loader } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { PayPalButtons } from '@paypal/react-paypal-js';
+import { PayPalButtons , BraintreePayPalButtons} from '@paypal/react-paypal-js';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+
 
 const Checkout = () => {
     const params = useSearchParams();
@@ -25,6 +27,7 @@ const Checkout = () => {
    const [address,setAddress]=useState();
    const[userName,setUsername]=useState();
    const [loading,setLoading]=useState(false);
+   const router=useRouter();
     useEffect(() => {
         console.log(params.get('restaurant'));
         user&&GetUserCart();
@@ -63,7 +66,8 @@ const Checkout = () => {
     // console.log(res);
     const resultid=res?.createOrder?.id
     setUpdateCart(!updateCart)
-    toast('order added');
+    toast('order added ✅');
+    router.replace('/confirmation');
     if(resultid){
     Cart?.forEach((item)=>{
         GlobalApi.UpdateorderDetails({
@@ -84,6 +88,22 @@ const Checkout = () => {
     setLoading(false)
 })
    }
+   const sendemail=async()=>{
+try{
+const responce=await fetch('api/send-email',{
+    method:'POST'
+})
+if(!responce){
+    toast('your email part is not working')
+}
+else{
+    toast('email sent succesfully')
+}
+}catch(err){
+    toast('err to send email !!!')
+}
+   }
+
     return (
         <div>
             <h2 className='font-bold text-2xl my-4'>checkout</h2>
@@ -112,10 +132,22 @@ const Checkout = () => {
                         <hr />
                         <h2 className='font-bold flex justify-between'>Total <span> {total.toFixed(2)}rs </span> </h2>
                         {/* <Button onClick={()=>onApprove({paymentid:123})}>Payment <ArrowBigRight/> </Button> */}
-                        {/* <Button onClick={() => addToOrder()}>
-                       {loading ? <Loader className='animate-spin'/> :'make payment'}</Button> */}
-                       <PayPalButtons style={{ layout: "horizontal" }}
-                       disabled={!(userName&&email&&address&&zip&&phone)} />
+                        <Button onClick={() => addToOrder()}>
+                       {loading ? <Loader className='animate-spin'/> :'make payment'}</Button>
+                        <Button onClick={() => sendemail(user?.emailAddresses)}>
+                       {loading ? <Loader className='animate-spin'/> :'make payment'}</Button>
+                        {/* <PayPalButtons style={{ layout: "horizontal" }}
+                       disabled={!(userName&&email&&address&&zip&&phone) || loading}
+                       onApprove={addToOrder} 
+                //        createOrder={(data, actions) => {
+                //     return actions.braintree.createPayment({
+                //         flow: "checkout",
+                //         amount: "10.0",
+                //         currency: "USD",
+                //         intent: "capture",
+                //     });
+                // }}
+                       /> */}
                     </div>
                 </div>
             </div>
