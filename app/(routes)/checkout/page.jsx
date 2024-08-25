@@ -109,23 +109,23 @@ const Checkout = () => {
 
     return (
         <div>
-            <h2 className='font-bold text-2xl my-4'>checkout</h2>
+            <h2 className='font-bold text-2xl my-4 text-center'>checkout</h2>
             <div className='p-5 px-5 md:px-10 grid grid-cols-1 md:grid-cols-3 py-8'>
-                <div className='md:col-span-2 mx-20'>
+                <div className='flex flex-col w-64 mx-auto md:col-span-2 md:w-9/12 md:mx-20 '>
                     <h2 className='font-bold text-3xl'>Billing Details</h2>
-                    <div className='grid grid-cols-2 gap-10 mt-3'>
+                    <div className='md:grid md:grid-cols-2 md:gap-10 mt-3 flex flex-col gap-2'>
                         <Input placeholder="Name" onChange={(e) => setUsername(e.target.value)} />
                         <Input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
                     </div>
-                    <div className='grid grid-cols-2 gap-10 mt-3'>
+                    <div className='md:grid md:grid-cols-2 md:gap-10 mt-3 gap-2 flex flex-col'>
                         <Input placeholder='phone' onChange={(e) => setPhone(e.target.value)} />
                         <Input placeholder='Zip' onChange={(e) => setZip(e.target.value)} />
                     </div>
-                    <div className='mt-3'>
+                    <div className='mt-3 mb-5'>
                         <Input placeholder='Address' onChange={(e) => setAddress(e.target.value)} />
                     </div>
                 </div>
-                <div className='mx-10 border'>
+                <div className='md:mx-10 border mx-auto w-64 md:w-9/12'>
                     <h2 className='p-3 bg-gray-200 font-bold text-center'>Total Cart ({Cart?.length})</h2>
                     <div className='flex flex-col p-4 gap-4'>
                         <h2 className='font-bold flex justify-between'>subtotal <span> {subtotal.toFixed(2)}rs </span> </h2>
