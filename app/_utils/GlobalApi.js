@@ -237,16 +237,32 @@ const UpdateorderDetails=async({name,price,id,email})=>{
   const result = await request(MASTER_URL, query);
   return result;
 }
-// const  DeleteUserCartDetail=async()=>{
-//   const query=gql`
-//   mutation DeleteUserCart {
-//     deleteManyUserCarts(where: {email: ""}) {
-//       count
-//     }
-//   }`
-//   const result = await request(MASTER_URL, query);
-//   return result;
-// }
+const GetUserOrders=async(email)=>{
+  const query=gql`
+  query UserOrders {
+    orders(where: {email: "`+email+`"}) {
+      address
+      createdAt
+      email
+      id
+      orderAmount
+      orderDetail {
+        ... on OrderItem {
+          id
+          name
+          price
+        }
+      }
+      phone
+      restaurantName
+      zipCode
+      userName
+    }
+  }
+  `
+  const result = await request(MASTER_URL, query);
+  return result;
+}
 export default {
   GetCategory,
   GetBusiness,
@@ -259,4 +275,5 @@ export default {
   getRestaurantReviews,
   CreateNewOrder,
   UpdateorderDetails,
+  GetUserOrders
 };

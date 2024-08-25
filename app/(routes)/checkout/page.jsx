@@ -67,7 +67,8 @@ const Checkout = () => {
     const resultid=res?.createOrder?.id
     setUpdateCart(!updateCart)
     toast('order added ✅');
-    router.replace('/confirmation');
+    // sendEmail();
+        router.replace('/confirmation');
     if(resultid){
     Cart?.forEach((item)=>{
         GlobalApi.UpdateorderDetails({
@@ -88,21 +89,23 @@ const Checkout = () => {
     setLoading(false)
 })
    }
-   const sendemail=async()=>{
-try{
-const responce=await fetch('api/send-email',{
-    method:'POST'
-})
-if(!responce){
-    toast('your email part is not working')
-}
-else{
-    toast('email sent succesfully')
-}
-}catch(err){
-    toast('err to send email !!!')
-}
-   }
+   const sendEmail=async()=>{
+    try{
+    const responce=await fetch('api/send-email',{
+        method:'POST'
+    })
+    if(!responce){
+        toast('your email part is not working')
+    }
+    else{
+        toast('email sent succesfully')
+    }
+    }catch(err){
+        toast('err to send email !!!')
+    }
+       }
+    
+  
 
     return (
         <div>
@@ -132,10 +135,10 @@ else{
                         <hr />
                         <h2 className='font-bold flex justify-between'>Total <span> {total.toFixed(2)}rs </span> </h2>
                         {/* <Button onClick={()=>onApprove({paymentid:123})}>Payment <ArrowBigRight/> </Button> */}
-                        <Button onClick={() => addToOrder()}>
+                        <Button  disabled={!(userName&&email&&address&&zip&&phone) || loading} onClick={() => addToOrder()}>
                        {loading ? <Loader className='animate-spin'/> :'make payment'}</Button>
-                        <Button onClick={() => sendemail(user?.emailAddresses)}>
-                       {loading ? <Loader className='animate-spin'/> :'make payment'}</Button>
+                        {/* <Button onClick={() => sendEmail(user?.emailAddresses)}>
+                       {loading ? <Loader className='animate-spin'/> :'send email'}</Button> */}
                         {/* <PayPalButtons style={{ layout: "horizontal" }}
                        disabled={!(userName&&email&&address&&zip&&phone) || loading}
                        onApprove={addToOrder} 
