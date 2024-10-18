@@ -8,7 +8,6 @@ const Provider = ({children}) => {
   const [updateCart,setUpdateCart]=useState(false);
   return (
     <PayPalScriptProvider options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID }}>
-      
     <CartUpdateContext.Provider value={{updateCart,setUpdateCart}}>
     <div className='px-10 md:px-20 relative mb-10'>
     <Header/>
